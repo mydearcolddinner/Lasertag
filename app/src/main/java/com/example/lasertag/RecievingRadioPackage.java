@@ -112,7 +112,11 @@ public class RecievingRadioPackage extends AppCompatActivity{
 
 
 //        adapterUi = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, playersUi);
-        playersListAdapter = new PlayersListAdapter(this, R.layout.list_player, playersUi);
+        playersListAdapter = new PlayersListAdapter(
+                this,
+                R.layout.list_player,
+                playersUi,
+                playerId -> System.err.println("Click on player with id" + playerId));
         listView.setAdapter(playersListAdapter);
     }
 

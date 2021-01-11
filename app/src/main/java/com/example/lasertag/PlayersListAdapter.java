@@ -8,18 +8,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class PlayersListAdapter extends ArrayAdapter<PlayersList> {
     private LayoutInflater inflater;
     private int layout;
     private ArrayList<PlayersList> playersList;
+    private final Consumer<String> playerCallback;
 
 
-    PlayersListAdapter(Context context, int resource, ArrayList<PlayersList> players){
+    public PlayersListAdapter(Context context, int resource, ArrayList<PlayersList> players, Consumer<String> playerCallback) {
         super(context, resource, players);
         this.playersList = players;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
+        this.playerCallback = playerCallback;
     }
 
     @Override
@@ -40,6 +44,7 @@ public class PlayersListAdapter extends ArrayAdapter<PlayersList> {
         viewHolder.deviceId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playerCallback.accept(player.getDeviceId());
                 //здесь должна выводиться вся инфа об игроке
             }
         });
