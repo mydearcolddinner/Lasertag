@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <usb-device vendor-id="9025" />                   &lt;!&ndash; 0x2341 / ......: Arduino &ndash;&gt;-->
+    <usb-device vendor-id="0483" product-id="5740" /> <!-- 0x16C0 / 0x0483: cdc 0x1E3 -->
+    <usb-device vendor-id="1155" product-id="22336" />
+<!--    <usb-device vendor-id="1003" product-id="8260" /> &lt;!&ndash; 0x03EB / 0x2044: Atmel Lufa &ndash;&gt;-->
+<!--    <usb-device vendor-id="7855" product-id="4"    /> &lt;!&ndash; 0x1eaf / 0x0004: Leaflabs Maple &ndash;&gt;-->
+<!--    <usb-device vendor-id="3368" product-id="516"  /> &lt;!&ndash; 0x0d28 / 0x0204: ARM mbed &ndash;&gt;-->
+
+    <!-- - - - custom prober - - - -->
+
+    <!-- CDC driver -->
+<!--    <usb-device vendor-id="5840" product-id="2174" /> &lt;!&ndash; 0x16d0 / 0x087e: Digispark &ndash;&gt;-->
+</resources>

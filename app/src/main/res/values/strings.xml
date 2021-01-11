@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Lasertag</string>
+    <string name="player_button">Player</string>
+    <string name="addedUSB">Устройство подключено</string>
+    <string name="SaveButton">SAVE</string>
+    <string name="Respawn">RESPAWN</string>
+    <string name="Kill">KILL</string>
+    <string name="ClearButton">CLEAR</string>
+    <string name="channel">Channel</string>
+    <string name="power">Power</string>
+    <string name="test">Test</string>
+    <string name="tvAppendText" />
+    <string name="addPlayer">addPlayer</string>
+    <string name="players">To Players</string>
+</resources>
