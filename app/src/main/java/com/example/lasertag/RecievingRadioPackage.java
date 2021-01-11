@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lasertag.playerPackageTypes.ArmaxPlayerImHere;
 import com.example.lasertag.playerPackageTypes.ArmaxRadioKill;
 import com.example.lasertag.playerPackageTypes.ArmaxRadioRespawn;
 import com.felhr.usbserial.UsbSerialDevice;
@@ -44,7 +45,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
     public byte[] newRadioPackageWrite = new byte[45];
 
     public int flag_device_group = 0, flag_answer = 0;
-    public int packageNumber = 0;
+    public int packageNumberWrite = 0;
     TextView textView;
     UsbManager mUsbManager;
 
@@ -63,6 +64,27 @@ public class RecievingRadioPackage extends AppCompatActivity{
     private byte[] queue = new byte[45];
     public int deviceId;
     public int deviceIdByte;
+    public int addressId;
+    private boolean retranslate;
+    private byte packageNumber;
+    private byte deviceGroup;
+    private byte packageType;
+    private byte deviceState;
+    private byte irProtocol;
+    private byte team;
+    private byte idMiles;
+    private byte idArmax;
+    private byte lives;
+    private short currentHealth;
+    private short maxHealth;
+    private byte gameSession;
+    private byte volumeLevel;
+    private byte autoReload;
+    private byte backgroundLight;
+    private byte batteryLevel;
+
+
+
 
     HashMap<Integer, Integer> players;
     ListView listView;
@@ -223,11 +245,32 @@ public class RecievingRadioPackage extends AppCompatActivity{
             if (armaxHeader.getPackageType() == 17) {
                 tvAppend("new Player!");
 
+                ArmaxPlayerImHere armaxPlayerImHere = armaxSerializator.readPlayerImHere(byteBuffer);
 
 //                queue = (armaxSerializator.writeHeader(armaxHeader));
                 tvAppend(String.valueOf(armaxHeader.getDeviceId()));
                 deviceId = armaxHeader.getDeviceId();
                 deviceIdByte = armaxHeader.getDeviceId();
+
+                addressId = armaxHeader.getAddressId();
+                packageNumber = armaxHeader.getPackageNumber();
+                deviceGroup = armaxHeader.getDeviceGroup();
+                packageType = armaxHeader.getPackageType();
+
+                deviceState = armaxPlayerImHere.getDeviceState();
+                irProtocol = armaxPlayerImHere.getIrProtocol();
+                team = armaxPlayerImHere.getTeam();
+                idMiles = armaxPlayerImHere.getIdMiles();
+                idArmax = armaxPlayerImHere.getIdMiles();
+                lives = armaxPlayerImHere.getLives();
+                currentHealth = armaxPlayerImHere.getCurrentHealth();
+                maxHealth = armaxPlayerImHere.getMaxHealth();
+                gameSession = armaxPlayerImHere.getGameSession();
+                volumeLevel = armaxPlayerImHere.getVolumeLevel();
+                autoReload = armaxPlayerImHere.getAutoReload();
+                backgroundLight = armaxPlayerImHere.getBackgroundLight();
+                batteryLevel = armaxPlayerImHere.getBatteryLevel();
+
 //                playerBuffer.order(ByteOrder.BIG_ENDIAN);
 ////                playerBuffer.putInt(armaxHeader.getDeviceId());
 //                ArmaxPlayerImHere armaxPlayerImHere = armaxSerializator.readPlayerImHere(byteBuffer);
@@ -261,6 +304,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
 
             playersUi.add(new PlayersList(String.valueOf(player.getValue())));
             playersListAdapter.notifyDataSetChanged();
+
         }
     }
 
@@ -292,7 +336,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
         armaxHeader.setAddressId((int) 0);
         armaxHeader.setDeviceId((int) 0x0F0F0F0F);
         armaxHeader.setRetranslate(false);
-        armaxHeader.setPackageNumber((byte)++packageNumber);
+        armaxHeader.setPackageNumber((byte)++packageNumberWrite);
         armaxHeader.setDeviceGroup((byte) 0);
         armaxHeader.setPackageType((byte)8);
         radioPackageWrite = armaxSerializator.writeHeader(armaxHeader);
@@ -318,7 +362,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
         armaxHeader.setAddressId((int) 0);
         armaxHeader.setDeviceId((int) 0x0F0F0F0F);
         armaxHeader.setRetranslate(false);
-        armaxHeader.setPackageNumber((byte)++packageNumber);
+        armaxHeader.setPackageNumber((byte)++packageNumberWrite);
         armaxHeader.setDeviceGroup((byte) 0);
         armaxHeader.setPackageType((byte)14);
         radioPackageWrite = armaxSerializator.writeHeader(armaxHeader);
