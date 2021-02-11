@@ -12,4 +12,12 @@
     <string name="tvAppendText" />
     <string name="addPlayer">addPlayer</string>
     <string name="players">To Players</string>
+    <string name="textMiles2Id">МАЙЛС 2 ID</string>
+    <string name="textArmaxId">ARMAX ID</string>
+    <string name="textProtocolMiles2">Протокол МАЙЛС 2</string>
+    <string name="textTeam">Команда</string>
+    <string name="textGameSession">Сеанс игры</string>
+    <string name="textBackLight">Фоновый свет</string>
+    <string name="textAutoReload">Автоперезарядка</string>
+    <string name="textVolume">Громкость звука</string>
 </resources>

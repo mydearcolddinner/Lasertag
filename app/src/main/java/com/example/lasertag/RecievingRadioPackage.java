@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,19 +37,28 @@ public class RecievingRadioPackage extends AppCompatActivity{
     public UsbDeviceConnection mConnection;
     public UsbDevice device;
     public UsbSerialDevice serialPort;
+
     MessageSender messageSender;
 
+    ArrayList<PlayersList> playersUi = new ArrayList<PlayersList>();
+    PlayersListAdapter playersListAdapter;
+    ArrayList<PlayerSettingsList> playerSettingsLists = new ArrayList<>();
+//    PlayerSettingsListAdapter playerSettingsListAdapter;
+    ArrayList playersAndSettings = new ArrayList();
+
+    HashMap<Integer, Integer> players;
+
+    ListView listPlayers;
+    ScrollView playerSettingsView;
 
     public byte[] radioPackage = new byte[15];
     public byte[] radioPackageWrite = new byte[15];
     public byte[] radioDataWrite = new byte[34];
     public byte[] newRadioPackageWrite = new byte[45];
 
-    public int flag_device_group = 0, flag_answer = 0;
     public int packageNumberWrite = 0;
     TextView textView;
     UsbManager mUsbManager;
-
     EditText power, channel;
     Button savePower, saveChannel;
     long unixTime = 0;
@@ -57,11 +67,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
     byte[] PowerByte = new byte[]{
             (byte)0x50, (byte) powerByte
     };
-    ArrayList<PlayersList> playersUi = new ArrayList<PlayersList>();
 
-    //    ArrayAdapter<String> adapterUi;
-    PlayersListAdapter playersListAdapter;
-    private byte[] queue = new byte[45];
     public int deviceId;
     public int deviceIdByte;
     public int addressId;
@@ -69,6 +75,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
     private byte packageNumber;
     private byte deviceGroup;
     private byte packageType;
+
     private byte deviceState;
     private byte irProtocol;
     private byte team;
@@ -84,10 +91,14 @@ public class RecievingRadioPackage extends AppCompatActivity{
     private byte batteryLevel;
 
 
-
-
-    HashMap<Integer, Integer> players;
-    ListView listView;
+    TextView idMilesView;
+    TextView idArmaxView;
+//    String irProtocolView;
+//    String teamView;
+//    String gameSessionView;
+//    String backgroundLightView;
+//    String autoReloadView;
+//    String volumeLevelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,13 +118,17 @@ public class RecievingRadioPackage extends AppCompatActivity{
         savePower = findViewById(R.id.SavePower);
         saveChannel = findViewById(R.id.SaveChannel);
 
-        listView = findViewById(R.id.listView);
+        idArmaxView = findViewById(R.id.textIteratorArmax);
+        idMilesView = findViewById(R.id.textIteratorMiles);
+
+        listPlayers = findViewById(R.id.listPlayers);
+        playerSettingsView = findViewById(R.id.playerSettingsView);
         players = new HashMap<>();
 
-
-//        adapterUi = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, playersUi);
-        playersListAdapter = new PlayersListAdapter(this, R.layout.list_player, playersUi);
-        listView.setAdapter(playersListAdapter);
+        playersListAdapter = new PlayersListAdapter(this, R.layout.list_player, playersUi, playerSettingsLists);
+        listPlayers.setAdapter(playersListAdapter);
+//        playerSettingsListAdapter = new PlayerSettingsListAdapter(this, R.layout.list_player_settings, playerSettingsLists);
+//        playerSettingsView.setAdapter(playerSettingsListAdapter);
     }
 
     @Override
@@ -279,7 +294,6 @@ public class RecievingRadioPackage extends AppCompatActivity{
 //                tvAppend(String.valueOf(armaxHeader.getPackageNumber()));
 //                tvAppend(String.valueOf(armaxHeader.getDeviceGroup()));
 //                tvAppend(String.valueOf(armaxHeader.getPackageType()).concat("\n"));
-                flag_device_group++;
             }
             tvAppend("\n");
             if (armaxHeader.getPackageType() == 13) {
@@ -304,8 +318,27 @@ public class RecievingRadioPackage extends AppCompatActivity{
 
             playersUi.add(new PlayersList(String.valueOf(player.getValue())));
             playersListAdapter.notifyDataSetChanged();
-
+            playerSettingsLists.add(new PlayerSettingsList((idMiles), (idArmax), String.valueOf(irProtocol),
+                    String.valueOf(team), String.valueOf(gameSession), String.valueOf(backgroundLight),
+                    String.valueOf(autoReload), String.valueOf(volumeLevel)));
+//            playerSettingsListAdapter.notifyDataSetChanged();
+//            setPlayerSettingsView(String.valueOf(idMiles), String.valueOf(idArmax));
         }
+    }
+
+    private void setPlayerSettingsView(String idMiles, String idArmax){
+        idMilesView.setText(idMiles);
+        idArmaxView.setText(idArmax);
+    }
+
+
+    public void myPlayer(View view) {
+        playersUi.add(new PlayersList("meow"));
+        playersListAdapter.notifyDataSetChanged();
+        playerSettingsLists.add(new PlayerSettingsList((1), (1), String.valueOf(1),
+                String.valueOf(1), String.valueOf(1), String.valueOf(1),
+                String.valueOf(1), String.valueOf(1)));
+        setPlayerSettingsView(String.valueOf(1), String.valueOf(1));
     }
 
 //    playersUi.clear();
