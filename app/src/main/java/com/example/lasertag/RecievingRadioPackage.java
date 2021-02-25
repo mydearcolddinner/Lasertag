@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class RecievingRadioPackage extends AppCompatActivity{
     public final String ACTION_USB_PERMISSION = "com.hariharan.arduinousb.USB_PERMISSION";
@@ -100,6 +101,8 @@ public class RecievingRadioPackage extends AppCompatActivity{
 //    String autoReloadView;
 //    String volumeLevelView;
 
+    private Consumer<String> testPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,8 @@ public class RecievingRadioPackage extends AppCompatActivity{
         playerSettingsView = findViewById(R.id.playerSettingsView);
         players = new HashMap<>();
 
-        playersListAdapter = new PlayersListAdapter(this, R.layout.list_player, playersUi, playerSettingsLists);
+        playersListAdapter = new PlayersListAdapter(this, R.layout.list_player,
+                R.layout.player_settings, playersUi, playerSettingsLists, testPlayer -> idMilesView.setText("111"));
         listPlayers.setAdapter(playersListAdapter);
 //        playerSettingsListAdapter = new PlayerSettingsListAdapter(this, R.layout.list_player_settings, playerSettingsLists);
 //        playerSettingsView.setAdapter(playerSettingsListAdapter);
@@ -317,10 +321,15 @@ public class RecievingRadioPackage extends AppCompatActivity{
 //            playersUi.add(String.valueOf(player.getValue()));
 
             playersUi.add(new PlayersList(String.valueOf(player.getValue())));
-            playersListAdapter.notifyDataSetChanged();
+//            testPlayer = String.valueOf(player.getValue());
+
+
             playerSettingsLists.add(new PlayerSettingsList((idMiles), (idArmax), String.valueOf(irProtocol),
                     String.valueOf(team), String.valueOf(gameSession), String.valueOf(backgroundLight),
                     String.valueOf(autoReload), String.valueOf(volumeLevel)));
+
+            playersListAdapter.notifyDataSetChanged();
+
 //            playerSettingsListAdapter.notifyDataSetChanged();
 //            setPlayerSettingsView(String.valueOf(idMiles), String.valueOf(idArmax));
         }
@@ -330,6 +339,7 @@ public class RecievingRadioPackage extends AppCompatActivity{
         idMilesView.setText(idMiles);
         idArmaxView.setText(idArmax);
     }
+
 
 
     public void myPlayer(View view) {
